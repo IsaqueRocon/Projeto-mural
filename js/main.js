@@ -1,10 +1,16 @@
 import ui from "./ui.js"
 import api from "./api.js"
 
-const regexConteudo = /^[A-Za-zÀ-ÖØ-öø-ÿ\s.,!?()'":;]{10,}$/
+const regexConteudo = /^[A-Za-zÀ-ÖØ-öø-ÿ\s.,!?()'":;]{10,}$/;
 
 function validarConteudo(conteudo){
   return regexConteudo.test(conteudo)
+}
+
+const regexAutoria = /^[a-zA-Z]{3,15}$/
+
+function validarAutoria(autoria){
+  return regexAutoria.test(autoria)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -25,11 +31,17 @@ async function manipularSubmissaoFormulario(event) {
   const conteudo = document.getElementById("pensamento-conteudo").value
   const autoria = document.getElementById("pensamento-autoria").value
   const data = document.getElementById("pensamento-data").value
-
-if(!validarConteudo(conteudo)){
-  alert("É permitida a inclusão apenas de letras e espaços com mínimo 10 caracteres")
-  return
-}
+  
+  if(!validarConteudo(conteudo)){
+    alert("É permitida a inclusão apenas de letras e espaços com mínimo 10 caracteres")
+    return
+  }
+  
+  
+  if(!validarAutoria(autoria)){
+    alert("É permitida a inclusão de letras e entre 3 e 15 caracteres sem espaços")
+    return
+  }
 
 
   if(validarData(data)){
