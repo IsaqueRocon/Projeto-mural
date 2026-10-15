@@ -19,22 +19,22 @@ const ui = {
     const listaPensamentos = document.getElementById("lista-pensamentos")
     const mensagemVazia = document.getElementById("mensagem-vazia")
     listaPensamentos.innerHTML = ""
-  
+
     try {
       let pensamentosParaRenderizar
 
-      if(pensamentosFiltrados) {
+      if (pensamentosFiltrados) {
         pensamentosParaRenderizar = pensamentosFiltrados
       } else {
         pensamentosParaRenderizar = await api.buscarPensamentos()
       }
-      
+
       if (pensamentosParaRenderizar.length === 0) {
         mensagemVazia.style.display = "block"
       } else {
         mensagemVazia.style.display = "none"
         pensamentosParaRenderizar.forEach(ui.adicionarPensamentoNaLista)
-      } 
+      }
     }
     catch {
       alert('Erro ao renderizar pensamentos')
@@ -60,19 +60,20 @@ const ui = {
     pensamentoAutoria.textContent = pensamento.autoria
     pensamentoAutoria.classList.add("pensamento-autoria")
 
-    
-    
+
+
     const pensamentoData = document.createElement("div")
 
     var options = {
-      weekday: 'long', 
+      weekday: 'long',
       year: 'numeric',
-      month: 'long', 
-      day: 'numeric', 
+      month: 'long',
+      day: 'numeric',
       timeZone: 'UTC'
     }
     const dataFormatada = pensamento.data.toLocaleDateString('pt-BR', options)
-    pensamentoData.textContent = dataFormatada
+    const dataComRegex = dataFormatada.replace(/^(\w)/, (match) => match.toUpperCase())
+    pensamentoData.textContent = dataComRegex
     pensamentoData.classList.add("pensamento-data")
 
     const botaoEditar = document.createElement("button")

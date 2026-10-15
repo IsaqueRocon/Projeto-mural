@@ -1,15 +1,21 @@
 import ui from "./ui.js"
 import api from "./api.js"
 
+const pensamentosSet = new Set()
+
+function removerEspacos(string) {
+  return string.replaceAll(/\s+/g, '')
+}
+
 const regexConteudo = /^[A-Za-zÀ-ÖØ-öø-ÿ\s.,!?()'":;]{10,}$/;
 
-function validarConteudo(conteudo){
+function validarConteudo(conteudo) {
   return regexConteudo.test(conteudo)
 }
 
 const regexAutoria = /^[a-zA-Z]{3,15}$/
 
-function validarAutoria(autoria){
+function validarAutoria(autoria) {
   return regexAutoria.test(autoria)
 }
 
@@ -31,21 +37,30 @@ async function manipularSubmissaoFormulario(event) {
   const conteudo = document.getElementById("pensamento-conteudo").value
   const autoria = document.getElementById("pensamento-autoria").value
   const data = document.getElementById("pensamento-data").value
-  
-  if(!validarConteudo(conteudo)){
+
+  const conteudoSemEspacos = removerEspacos(conteudo)
+  const autoriaSemEspacos = removerEspacos(autoria)
+
+  if (!validarConteudo(conteudoSemEspacos)) {
     alert("É permitida a inclusão apenas de letras e espaços com mínimo 10 caracteres")
     return
   }
-  
-  
-  if(!validarAutoria(autoria)){
+
+  if (!validarAutoria(autoriaSemEspacos)) {
     alert("É permitida a inclusão de letras e entre 3 e 15 caracteres sem espaços")
     return
   }
 
-
-  if(validarData(data)){
+  if (validarData(data)) {
     alert("Não é permitido o cadastro de datas futuras, selecione outra data ")
+  }
+
+  const chaveNovoPensamento = `${conteudo.toLowerCase()}-${autoria.trim().toLowerCase()}`
+
+
+  if (pensamentosSet.has(chaveNovoPensamento)) {
+    alert('Esse pensamento já existe')
+    return
   }
 
   try {
@@ -75,7 +90,7 @@ async function manipularBusca() {
   }
 }
 
-function validarData(data){
+function validarData(data) {
   const dataAtual = new Date()
   const dataInserida = new Date(data)
   return dataInserida <= dataAtual
