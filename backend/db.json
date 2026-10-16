@@ -95,6 +95,12 @@
       "autoria": "dev",
       "data": "2026-10-17T00:00:00.000Z",
       "id": "75P2hJK03_E"
+    },
+    {
+      "conteudo": "Na minha maquina funciona",
+      "autoria": "dev",
+      "data": "2026-10-22T00:00:00.000Z",
+      "id": "tAFWtWTiwZE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
